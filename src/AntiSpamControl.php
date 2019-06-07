@@ -26,7 +26,7 @@ class AntiSpamControl extends BaseControl {
 	 * @param Session $session
 	 * @param Request $request
 	 */
-	public static function register(array $configuration, Session $session, Request $request) {
+	public static function register(array $configuration, Session $session, \Nette\Http\IRequest $request) {
 		$class = __CLASS__;
 		
 		Container::extensionMethod("addAntiSpam", function(
@@ -91,7 +91,7 @@ class AntiSpamControl extends BaseControl {
 	/**
 	 * @param Form $parent
 	 */
-	protected function attached($parent) {
+	protected function attached($parent): void {
 		parent::attached($parent);
 		
 		if($parent instanceof Presenter) {
@@ -227,7 +227,7 @@ class AntiSpamControl extends BaseControl {
 	/**
 	 * @return int
 	 */
-	public function getError() {
+	public function getError():?string {
 		return $this->validator->getError();
 	}
 }
