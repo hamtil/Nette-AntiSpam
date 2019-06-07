@@ -78,9 +78,9 @@ class Validator {
 	public function getData($key, $defaultValue = null) {
 		switch($this->method) {
 			case "get":
-				return $this->request->getQuery($key, $defaultValue);
+				return $this->request->getQuery($key)  ?? $defaultValue;
 			default:
-				return $this->request->getPost($key, $defaultValue);
+				return $this->request->getPost($key) ?? $defaultValue;
 		}
 	}
 	
@@ -151,22 +151,22 @@ class Validator {
 			
 			return false;
 		}
-		if(!$this->validateQuestion()) {
+/*		if(!$this->validateQuestion()) {
 			$this->error = ErrorType::QUESTION;
 			
 			return false;
-		}
+		}*/
 		if(!$this->validateLock()) {
 			$this->error = ErrorType::LOCK_TIME;
 			
 			return false;
 		}
-		if(!$this->validateResendTime()) {
+/*		if(!$this->validateResendTime()) {
 			$this->error = ErrorType::RESEND_TIME;
 			
 			return false;
 		}
-		
+		*/
 		return true;
 	}
 	
@@ -198,8 +198,9 @@ class Validator {
 	 */
 	private function validateQuestion() {
 		$value = $this->getData($this->questionInput);
-		
-		return $value == $this->getSessionSection()->result;
+		dump($value, "value");
+		dump($this->getSessionSection()->result, "result");
+		return (int) $value == (int) $this->getSessionSection()->result;
 	}
 	
 	/**
