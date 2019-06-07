@@ -35,7 +35,8 @@ final class AntiSpamExtension extends CompilerExtension {
 	 *
 	 */
 	public function loadConfiguration() {
-		$this->configuration = $this->getConfig($this->defaults);
+		//$this->configuration = $this->getConfig($this->defaults);
+		$this->configuration = $this->defaults;
 	}
 	
 	/**
@@ -47,7 +48,7 @@ final class AntiSpamExtension extends CompilerExtension {
 		$init->addBody('\Zet\AntiSpam\AntiSpamControl::register(?, $this->getService(?), $this->getService(?));', [
 			$this->configuration,
 			$this->getContainerBuilder()->getByType(Nette\Http\Session::class),
-			$this->getContainerBuilder()->getByType(Nette\Http\Request::class)
+			$this->getContainerBuilder()->getByType(Nette\Http\IRequest::class)
 		]);
 	}
 }
